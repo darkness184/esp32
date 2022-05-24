@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
 const informationRoutes = require('./src/routes/information.routes')
 
 // using as middleware
-app.use('/api/v1/information', informationRoutes)
+app.use('/', informationRoutes)
 
 // listen for requests
 app.listen(port, () => {
