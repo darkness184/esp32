@@ -23,13 +23,14 @@ exports.create = function(req, res) {
 }
 
 exports.update = function(req, res) {
-  information.update(function(err, information){
-    console.log('Controller')
-    if(err)
-    res.send(err);
-    console.log('res', information);
-    res.send(information);
-  })
+  console.log('Controller :',req.body.Name);
+  res.send(null);
+  // information.update(function(err, information){
+  //   if(err)
+  //   res.send(err);
+  //   console.log('res', information);
+  //   res.send(information);
+  // })
 }
 
 exports.read = function(req, res) {

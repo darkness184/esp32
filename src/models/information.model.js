@@ -4,10 +4,7 @@ var dbConn = require('../../config/db.config');
 
 //information object create
 
-var information = function(information){
-  this.id     = information.id;
-  this.data     = information.data;
-};
+var information = {};
 
 information.getAll = function (result) {
     dbConn.query("Select * from test", function (err, res) {
@@ -36,7 +33,7 @@ information.create = function (data, result){
 }
 
 information.update = function(data, result) {
-    dbConn.query('update test set ? where id = ?', [data, data.id], function(err, res) {
+    dbConn.query('update test set ? where id = ?', [data.Name, data.Number], function(err, res) {
       dbConn.release();
       if(err){
         console.log("bug: ", err)
