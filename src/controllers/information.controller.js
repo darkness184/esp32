@@ -3,8 +3,8 @@
 const information = require('../models/information.model');
 
 exports.getAll = function(req, res) {
+  console.log('controller:', res.body);
     information.getAll(function(err, information) {
-      console.log('controller')
       if (err)
       res.send(err);
       console.log('res', information);
@@ -12,9 +12,29 @@ exports.getAll = function(req, res) {
     });
 };
 
+exports.get_temp_humi = function(req, res){
+  console.log('controller:', res.body);
+    information.get_temp_humi(function(err, information) {
+      if (err)
+      res.send(err);
+      console.log('res', information);
+      res.send(information);
+    });
+}
+
 exports.create = function(req, res) {
-  information.create(function(err, information){
-    console.log('Controller')
+  console.log('Controller:', req.body)
+  information.create(req.body,function(err, information){
+    if(err)
+    res.send(err);
+    console.log('res', information);
+    res.send(information);
+  })
+}
+
+exports.insert = function(req, res) {
+  console.log('Controller:',req.body.data)
+  information.insert(req.body.data, function(err, information){
     if(err)
     res.send(err);
     console.log('res', information);
@@ -23,19 +43,19 @@ exports.create = function(req, res) {
 }
 
 exports.update = function(req, res) {
-  console.log('Controller :',req.body.Name);
+  console.log('Controller :',req.body);
   res.send(null);
-  // information.update(function(err, information){
-  //   if(err)
-  //   res.send(err);
-  //   console.log('res', information);
-  //   res.send(information);
-  // })
+  information.update(req.body,function(err, information){
+    if(err)
+    res.send(err);
+    console.log('res', information);
+    res.send(information);
+  })
 }
 
 exports.read = function(req, res) {
-  information.read(function(err, information){
-    console.log('Controller')
+  console.log('Controller:', req.body)
+  information.read(req.body, function(err, information){
     if(err)
     res.send(err);
     console.log('res', information);
@@ -44,8 +64,8 @@ exports.read = function(req, res) {
 }
 
 exports.delete = function(req, res) {
-  information.delete(function(err, information){
-    console.log('Controller')
+  console.log('Controller:',req.body)
+  information.delete(req.body, function(err, information){
     if(err)
     res.send(err);
     console.log('res', information);

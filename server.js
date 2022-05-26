@@ -1,9 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const dbConn = require('./config/db.config');
+const mqttServer = require('./config/mqtt');
 
-'use strict';
-const mysql = require('mysql');
 
 // create express app
 const app = express();
