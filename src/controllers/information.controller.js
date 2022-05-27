@@ -36,7 +36,7 @@ exports.create = function(req, res) {
 
 exports.insert() = function(req, res) {
     console.log('Controller:', res.body)
-    information.insert(req.body, function(err, information) {
+    information.insert(mqttClient.data(), function(err, information) {
         if (err)
             res.send(err);
         console.log('res', information);
