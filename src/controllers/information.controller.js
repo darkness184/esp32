@@ -1,6 +1,8 @@
 // information.controller.js 
 'use strict';
 const information = require('../models/information.model');
+const mqttClient = require('../../config/mqtt');
+
 
 exports.getAll = function(req, res) {
   console.log('controller:', res.body);
@@ -32,9 +34,9 @@ exports.create = function(req, res) {
   })
 }
 
-exports.insert = function(req, res) {
-  console.log('Controller:',req.body.data)
-  information.insert(req.body.data, function(err, information){
+exports.insert() = function(req, res) {
+  console.log('Controller:',res.body)
+  information.insert(mqttClient.data_mqtt, function(err, information){
     if(err)
     res.send(err);
     console.log('res', information);

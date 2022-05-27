@@ -1,5 +1,6 @@
 // information.model.js
 'use strict';
+const { MqttClient } = require('mqtt');
 var dbConn = require('../../config/db.config');
 
 //information object create
@@ -33,7 +34,7 @@ information.get_temp_humi = function(result){
 }
 
 information.insert = function(data, result){
-  dbConn.query("INSERT INTO `temp_humi` (`id`, `data`, `time`) VALUES (NULL, '?', CURRENT_TIMESTAMP); ", data, function(err,res){
+  dbConn.query("INSERT INTO temp_humi (id, data, time) VALUES (NULL, '?', CURRENT_TIMESTAMP); ", data, function(err,res){
     if (err) {
       comsole.log("error:", err);
       result(null,err);

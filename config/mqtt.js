@@ -1,5 +1,6 @@
 'use strict';
 const mqtt = require('mqtt');
+const information = require('../src/controllers/information.controller');
 
 //mqtt server flespi
 const host = 'mqtt.flespi.io'
@@ -27,5 +28,7 @@ client.on('connect', () => {
 
 client.on('message', (topic, payload) => {
     console.log('Received Message:', topic, payload.toString())
-  })
+    var data_mqtt = payload.toString();
+    information.insert();
+})
   
