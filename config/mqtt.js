@@ -37,10 +37,10 @@ mqttClient.data = function data_temp_humi() {
 
 client.on('message', (topic, payload) => {
     console.log('Received Message:', topic, payload.toString())
-    information.insert(payload.toString(), function(err, information) {
+    function(req, res) {information.insert(payload.toString(), function(err, information) {
         if (err)
             res.send(err);
         console.log('res', information);
         res.send(information);
     });
-})
+}})
