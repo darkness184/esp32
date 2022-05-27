@@ -1,6 +1,6 @@
 'use strict';
 const mqtt = require('mqtt');
-const information = require('../src/controllers/information.controller');
+const information = require('../models/information.model');
 
 //mqtt server flespi
 const host = 'mqtt.flespi.io'
@@ -9,7 +9,7 @@ const clientId = `mqtt_server_${Math.random().toString(16).slice(3)}`
 
 const connectUrl = `mqtt://${host}:${port}`
 
-var mqttClient = {};
+const clientID = mqtt.mqttClient;
 
 const client = mqtt.connect(connectUrl, {
     clientId,
@@ -37,5 +37,12 @@ mqttClient.data = function data_temp_humi() {
 
 client.on('message', (topic, payload) => {
     console.log('Received Message:', topic, payload.toString())
-    information.insert;
+    exports.insert() = function(req, res) {
+        information.insert(payload.toString(), function(err, information) {
+            if (err)
+                res.send(err);
+            console.log('res', information);
+            res.send(information);
+        })
+    }
 })
