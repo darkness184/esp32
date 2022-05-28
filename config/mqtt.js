@@ -1,6 +1,8 @@
 'use strict';
+const { json } = require('express/lib/response');
 const mqtt = require('mqtt');
-const information = require('../src/controllers/information.controller');
+const information = require('../src/models/information.model');
+var dbConn = require('../config/db.config')
 
 //mqtt server flespi
 const host = 'mqtt.flespi.io'
@@ -9,7 +11,7 @@ const clientId = `mqtt_server_${Math.random().toString(16).slice(3)}`
 
 const connectUrl = `mqtt://${host}:${port}`
 
-var mqttClient = {};
+const clientID = mqtt.mqttClient;
 
 const client = mqtt.connect(connectUrl, {
     clientId,
@@ -28,14 +30,18 @@ client.on('connect', () => {
     })
 })
 
-mqttClient.data = function data_temp_humi() {
-    client.on('', (topic, payload) => {
-        var data = payload.toString();
-        return data;
-    })
-}
-
 client.on('message', (topic, payload) => {
     console.log('Received Message:', topic, payload.toString())
-    information.insert;
+    console.log('tranfer data to base');
+    var data_pub = {"data" : payload.toString()};
+    var data_json = JSON.stringify(data_pub);
+    data_json = JSON.parse(data_json);
+    var data = Number(data_json.data);
+    console.log('type data: ',typeof data, '...', data);
+
+    information.insert(data, function(err, information){
+    if (err)
+        console.log('error: ', err);
+    console.log('result: ', information);
+    });
 })

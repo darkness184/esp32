@@ -21,7 +21,7 @@ information.getAll = function (result) {
 };
 
 information.get_temp_humi = function(result){
-  dbConn.query("Select * from temp_humi", function(err,res){
+  dbConn.query("SELECT data FROM `temp_humi` ORDER BY id DESC LIMIT 1", function(err,res){
     if (err) {
       console.log("error: ", err);
       result(null, err);
@@ -34,7 +34,7 @@ information.get_temp_humi = function(result){
 }
 
 information.insert = function(data, result){
-  dbConn.query("INSERT INTO temp_humi (id, data, time) VALUES (NULL, '?', CURRENT_TIMESTAMP); ", data, function(err,res){
+  dbConn.query("INSERT INTO temp_humi (`id`, `data`, `time`) VALUES (NULL, '?', CURRENT_TIMESTAMP);", data, function(err,res){
     if (err) {
       comsole.log("error:", err);
       result(null,err);

@@ -8,7 +8,7 @@ const mqttServer = require('./config/mqtt');
 const app = express();
 
 // Setup server port
-const port = process.env.PORT || 5500;
+const port = process.env.PORT || 5600;
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }))
