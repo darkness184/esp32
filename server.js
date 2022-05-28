@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const dbConn = require('./config/db.config');
 const mqttServer = require('./config/mqtt');
+const cors = require('cors')
 
 
 // create express app
@@ -9,6 +10,11 @@ const app = express();
 
 // Setup server port
 const port = process.env.PORT || 5600;
+
+app.use(cors({
+  origin: '*'
+}));
+
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }))
