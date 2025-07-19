@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html style="height: 90vh">
+
+<head>
+    <meta charset="utf-8">
+    <title>Temp_humi_report</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
+</head>
+
+<body style="height: 50%">
+    <canvas id="linechart_temp" style="width: 100%; height: 100%"></canvas>
+    <canvas id="linechart_humi" style="width: 100%; height: 100%"></canvas>
+</body>
+
+<script>
+    var trucTen = [];
+    var trucNhietDo = [];
+    var trucDoAm = [];
+    var chartCtx = document.getElementById('linechart_temp').getContext('2d');
+    var line_chart = new Chart(chartCtx, {
+        type: 'line',
+        options: {
+            plugins: {
+                legend: {
+                    display: true
+                }
+            },
+            scales: {
+                y: {
+                    min: 0,
+                    max: 100,
+                }
+            }
+        },
+        data: {
+            labels: trucTen,
+            datasets: [{
+                label: "Temperature",
+                data: trucNhietDo,
+                borderColor: "red",
+                backgroundColor: "red",
+            }, {
+                label: "Humanity",
+                data: trucDoAm,
+                borderColor: "blue",
+                backgroundColor: "blue",
+            }]
+        }
+    })
+    const refreshData = () => {
+        fetch("http://550studios.com:61111/temp_humi/get")
+            .then(response => response.json())
+            .then(data => {
+                const maxDataInChart = 9;
+                // DATA 
+                const serverData = data[0].data
+                // DATA LIKE 1234, two for temp and two for humanity
+                const temperature = parseInt(serverData.slice(0, 2), 10)
+                const humanity = parseInt(serverData.slice(2, 4), 10)
+
+                // Server data log
+                console.log({ temperature, humanity })
+                trucTen.push((new Date()).toLocaleTimeString())
+                trucNhietDo.push(temperature)
+                trucDoAm.push(humanity)
+
+                if (trucTen.length === (maxDataInChart + 1)){
+                    trucTen.shift();
+                    trucNhietDo.shift();
+                    trucDoAm.shift();
+                }
+
+                line_chart.update();
+            });
+    }
+    refreshData();
+    setInterval(() => {
+        refreshData();
+    }, 10000)
+</script>
+
+</html>
